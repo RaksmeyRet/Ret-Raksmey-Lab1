@@ -8,6 +8,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha --exit",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha --exit",
+    "coverage": "yarn test:coverage",
     "lint": "eslint . --ext .js --max-warnings 0"
   },
   "dependencies": {
@@ -18,6 +20,24 @@
     "chai-http": "^5.1.2",
     "eslint": "^9.38.0",
     "mocha": "^11.7.4",
+    "nyc": "^17.1.0",
     "supertest": "^7.1.4"
+  },
+  "nyc": {
+    "exclude": [
+      "test/**",
+      "node_modules/**",
+      "coverage/**"
+    ],
+    "reporter": [
+      "text",
+      "html",
+      "lcov"
+    ],
+    "check-coverage": true,
+    "lines": 80,
+    "functions": 80,
+    "branches": 80,
+    "statements": 80
   }
 }
