@@ -3,11 +3,11 @@ const app = require('../app');
 
 describe('Express App', () => {
   describe('GET /', () => {
-    it('should return Hello, GitHub Actions!', (done) => {
+    it('should return Hello, CI/CD!', (done) => {
       request(app)
         .get('/')
         .expect(200)
-        .expect('Hello, GitHub Actions!')
+        .expect('Hello, CI/CD!')
         .end(done);
     });
   });
