@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ret-raksmey-lab1
+    env: node
+    buildCommand: yarn install --frozen-lockfile
+    startCommand: yarn start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    plan: free

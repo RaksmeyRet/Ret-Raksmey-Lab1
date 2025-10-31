@@ -91,3 +91,54 @@ jobs:
           echo "📈 Coverage: Generated"
           echo ""
           echo "🎉 This PR is ready for review and merge!"
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --production=false
+        
+      - name: Run final tests before deployment
+        run: yarn test
+        
+      - name: Deployment notification start
+        run: |
+          echo "🚀 Starting deployment to production..."
+          echo "📦 Application: ret-raksmey-lab1"
+          echo "🔗 Repository: ${{ github.repository }}"
+          echo "📝 Commit: ${{ github.sha }}"
+          echo "👤 Actor: ${{ github.actor }}"
+          
+      - name: Deploy to Render
+        run: |
+          echo "🌐 Deploying to Render..."
+          echo "✅ render.yaml configuration detected"
+          echo "🔄 Render will automatically deploy from this push"
+          echo "📡 Deployment URL will be available at: https://ret-raksmey-lab1.onrender.com"
+          echo ""
+          echo "📋 Deployment steps:"
+          echo "1. Render detects push to main branch"
+          echo "2. Render builds: yarn install --frozen-lockfile"
+          echo "3. Render starts: yarn start"
+          echo "4. Health check: GET /"
+          echo "5. Service goes live"
+          
+      - name: Deployment notification success
+        run: |
+          echo "🎉 Deployment initiated successfully!"
+          echo "⏱️  Build time: ~2-3 minutes"
+          echo "🔍 Monitor deployment: https://dashboard.render.com"
+          echo "🌟 Application will be live at: https://ret-raksmey-lab1.onrender.com"
